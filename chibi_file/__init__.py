@@ -1,4 +1,9 @@
 import mmap
+import os
+
+
+def current_dir():
+    return os.getcwd()
 
 
 class Chibi_file:
