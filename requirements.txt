@@ -1,0 +1,6 @@
+coverage
+pyflakes
+pep8
+flake8
+expects
+pytest
