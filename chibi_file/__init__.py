@@ -19,5 +19,11 @@ class Chibi_file:
             self._file_content = mmap.mmap( f.fileno(), 0,
                                            prot=mmap.PROT_READ )
 
-    def __contains__(self, string ):
+    def __contains__( self, string ):
         return self.find( string ) >= 0
+
+
+    def append( self, string ):
+        with open( self._file_name, 'a' ) as f:
+            f.write( string )
+        self.reread()

@@ -1,5 +1,6 @@
-from expects import expect, be_above, be_a, be_true, be_none, be_false, equal
 import pytest
+from expects import expect, be_above, be_a, be_true, be_false, be_below
+
 from chibi_file import Chibi_file
 
 
@@ -42,34 +43,46 @@ def chibi_file( tmp_file ):
     return Chibi_file( tmp_file )
 
 
-class Test_Chibi_open:
-    def test_find_text_in_file( self, chibi_file, text_in_the_file ):
-        find = chibi_file.find( text_in_the_file )
-        expect( find ).to( be_above( 1 ) )
+class Test_Chibi_open__in:
 
-    def test_find_return_a_int( self, chibi_file, text_in_the_file ):
-        find = chibi_file.find( text_in_the_file )
-        expect( find ).to( be_a( int ) )
-
-    def test_find_text_using_in( self, chibi_file, text_in_the_file ):
+    def test_texts_in_file_be_true( self, chibi_file, text_in_the_file ):
         find = text_in_the_file in chibi_file
         expect( find ).to( be_true )
 
-    def test_in_operador_return_a_bool( self, chibi_file, text_in_the_file ):
+    def test_return_a_bool( self, chibi_file, text_in_the_file ):
         find = text_in_the_file in chibi_file
         expect( find ).to( be_a( bool ) )
 
-    def test_in_with_no_find_text_return_a_bool( self, chibi_file,
-                                                 no_text_in_the_file ):
+    def test_text_not_in_file_return_a_bool( self, chibi_file,
+                                             no_text_in_the_file ):
         find = no_text_in_the_file in chibi_file
         expect( find ).to( be_a( bool ) )
 
-    def test_find_with_no_find_text_return_a_none( self, chibi_file,
-                                                   no_text_in_the_file ):
-        find = chibi_file.find( no_text_in_the_file )
-        expect( find ).to( equal( -1 ) )
-
-    def test_in_with_no_find_text_be_false( self, chibi_file,
-                                                 no_text_in_the_file ):
+    def test_text_not_in_file_be_false( self, chibi_file,
+                                        no_text_in_the_file ):
         find = no_text_in_the_file in chibi_file
         expect( find ).to( be_false )
+
+
+class Test_Chibi_open__find:
+    def test_text_find_return_positive_number( self, chibi_file,
+                                              text_in_the_file ):
+        find = chibi_file.find( text_in_the_file )
+        expect( find ).to( be_above( 0 ) )
+
+    def test_text_find_be_a_int( self, chibi_file, text_in_the_file ):
+        find = chibi_file.find( text_in_the_file )
+        expect( find ).to( be_a( int ) )
+
+    def test_text_not_find_be_a_negative_number( self, chibi_file,
+                                                 no_text_in_the_file ):
+        find = chibi_file.find( no_text_in_the_file )
+        expect( find ).to( be_below( 0 ) )
+
+
+class Test_Chibi_open__append:
+    def test_after_append_find_the_text( self, chibi_file,
+                                        no_text_in_the_file ):
+        expect(no_text_in_the_file in chibi_file).to( be_false )
+        chibi_file.append( no_text_in_the_file )
+        expect(no_text_in_the_file in chibi_file).to( be_true )
