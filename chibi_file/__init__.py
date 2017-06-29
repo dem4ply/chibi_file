@@ -6,6 +6,13 @@ def current_dir():
     return os.getcwd()
 
 
+def inflate_dir( dir ):
+    if '~' in dir:
+        return os.path.expanduser( dir )
+    else:
+        return os.path.abspath( dir )
+
+
 class Chibi_file:
     def __init__( self, file_name ):
         self._file_name = file_name
