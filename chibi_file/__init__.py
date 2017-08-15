@@ -18,18 +18,21 @@ def is_dir( src ):
 
 
 def is_file( src ):
-    return os.path.isfile
-
+    return os.path.isfile( src )
 
 
 def ls( src=None ):
     if src is None:
         src = current_dir()
-    return ( name for name in os.listdir() )
+    return ( name for name in os.listdir( src ) )
 
 
-def ls_only_dir( src ):
-    return ( name for name in ls() if is_dir( name ) )
+def ls_only_dir( src=None ):
+    return ( name for name in ls( src ) if is_dir( name ) )
+
+
+def join( *patch ):
+    return os.path.join( *patch )
 
 
 class Chibi_file:
