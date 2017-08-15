@@ -6,11 +6,30 @@ def current_dir():
     return os.getcwd()
 
 
-def inflate_dir( dir ):
-    if '~' in dir:
-        return os.path.expanduser( dir )
+def inflate_dir( src ):
+    if '~' in src:
+        return os.path.expanduser( src )
     else:
-        return os.path.abspath( dir )
+        return os.path.abspath( src )
+
+
+def is_dir( src ):
+    return os.path.isdir( src )
+
+
+def is_file( src ):
+    return os.path.isfile
+
+
+
+def ls( src=None ):
+    if src is None:
+        src = current_dir()
+    return ( name for name in os.listdir() )
+
+
+def ls_only_dir( src ):
+    return ( name for name in ls() if is_dir( name ) )
 
 
 class Chibi_file:
