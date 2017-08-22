@@ -35,10 +35,20 @@ def join( *patch ):
     return os.path.join( *patch )
 
 
+def exists( file_name ):
+    return os.path.exists( file_name )
+
+
 class Chibi_file:
     def __init__( self, file_name ):
         self._file_name = file_name
+        if not self.exists:
+            self.touch()
         self.reread()
+
+    @property
+    def file_name( self ):
+        return self._file_name
 
     def __del__( self ):
         self._file_content.close()
@@ -51,13 +61,19 @@ class Chibi_file:
     def reread( self ):
         with open( self._file_name, 'r' ) as f:
             self._file_content = mmap.mmap( f.fileno(), 0,
-                                           prot=mmap.PROT_READ )
+                                            prot=mmap.PROT_READ )
 
     def __contains__( self, string ):
         return self.find( string ) >= 0
-
 
     def append( self, string ):
         with open( self._file_name, 'a' ) as f:
             f.write( string )
         self.reread()
+
+    @property
+    def exists( self ):
+        return exists( self.file_name )
+
+    def touch( self ):
+        open( self.file_name, 'a' ).close()
