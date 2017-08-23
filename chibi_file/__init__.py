@@ -1,5 +1,6 @@
 import mmap
 import os
+import shutil
 
 
 def current_dir():
@@ -37,6 +38,10 @@ def join( *patch ):
 
 def exists( file_name ):
     return os.path.exists( file_name )
+
+
+def copy( source, dest ):
+    shutil.copy( source, dest )
 
 
 class Chibi_file:
@@ -77,3 +82,6 @@ class Chibi_file:
 
     def touch( self ):
         open( self.file_name, 'a' ).close()
+
+    def copy( self, dest ):
+        copy( self.file_name, dest )
